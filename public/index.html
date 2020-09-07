@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+    <title>SYNTHBOARD</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="{overlay: isActive}">
+    <h1>SYNTHBOARD</h1>
+    <div id="main">
+        <form>
+            <input class="normalInput" v-model="title" type="text" name="title" placeholder="model">
+            <input class="normalInput" v-model="description" type="text" name="description" placeholder="description">
+            <input class="normalInput" v-model="username" type="text" name="username" placeholder="username">
+            <input @change="handleChange" type="file" name="file" accept="image/*">
+            <button @click="handleClick">Submit</button>
+        </form>
+
+        <first-component
+            v-if="id"
+            @close="closemodal"
+            :id="id"
+        ></first-component>
+
+        <div class="container">
+            <div v-for="image in images">
+                <a :href=" '#' + image.id">
+                    <div class="element">
+                        <img @click="over" :id="image.id" class="pic" :src= "image.url" alt="image.title">
+                        <p>{{image.title}}</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <button v-if="seen"  @click="more">More</button>   
+    </div>
+
+    <script type="text/x-template" id="template">
+        <div class="component">
+            <p class="close" @click="closemodal">X</p>
+            <h1>{{title}}</h1>
+            <img class="modalPic" :src="url">
+            <h2>{{description}}</h2>
+            <h3>Posted by: {{username}}</h3>
+            <form class="commForm">
+                <input class="normalInput" type="text" v-model="newComm" name="comment" placeholder="comment">
+                <input class="normalInput" type="text" v-model="newCommUsername" name="username" placeholder="username">
+                <button @click="addcomment">Post</button>
+            </form>
+                <div class="commentSection">
+                    <div v-for="comment in comments">
+                        <div class="commElement">
+                        <p><span class="user">{{comment.username}}:</span> {{comment.comment}}</p>
+                        </div>
+                    </div>
+                </div>
+        </div>
+</div>
+    </script>
+    <script src="/js/vue.js"></script>
+    <script src="/js/axios.min.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+</html>
